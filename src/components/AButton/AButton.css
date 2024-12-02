@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .abutton {
+    @apply py-2 px-4 rounded-md bg-lightblue font-semibold text-white shadow-lg transition duration-150 ease-in-out hover:bg-blue hover:shadow-xl;
+  }
+}

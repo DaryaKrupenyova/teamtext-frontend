@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .label {
+    @apply block text-base font-medium;
+  }
+}

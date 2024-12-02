@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input {
+    @apply h-8 w-full rounded-md shadow-sm border border-lightblue pl-10 text-base focus:outline-blue;
+  }
+
+  .error_input {
+    @apply h-8 w-full rounded-md shadow-sm border border-red pl-10 text-base focus:outline-red;
+  }
+}
