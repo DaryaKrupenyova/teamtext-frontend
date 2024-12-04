@@ -38,6 +38,14 @@ main {
   background-color: #f2f2fe;
 }
 
+.ellipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* Количество строк, которое нужно отобразить */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-height: 740px) {
   .body_auth {
     padding-top: 50px;

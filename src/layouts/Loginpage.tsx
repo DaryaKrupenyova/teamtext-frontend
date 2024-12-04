@@ -8,7 +8,6 @@ import { LogoutIcon } from "../components/Icons/LogoutIcon";
 import { Input } from "../components/Input/Input";
 import { Label } from "../components/Label/Label";
 import { Button } from "../components/Button/Button";
-import { ErrorIcon } from "../components/Icons/ErrorIcon";
 
 import { LoginData, AuthErrorResponse } from "../entities/account/model/types";
 
@@ -21,7 +20,10 @@ export const Loginpage = () => {
     formState: { errors },
   } = useForm<LoginData>();
 
-  /* запрос на логин + ошибки с бэка */
+  // запрос на вход
+  const [loginUser] = useLoginUserMutation();
+
+  // делаем запрос на вход + получение ошибок с бэка
   const navigate = useNavigate();
   const handleSubmitProcess = async (data: LoginData) => {
     try {
@@ -32,13 +34,7 @@ export const Loginpage = () => {
       localStorage.setItem("refresh", refreshtoken);
       const accesstoken = returned?.access ?? null;
       localStorage.setItem("access", accesstoken);
-      const role = returned?.role ?? null;
-      localStorage.setItem("role", role);
-      if (role == "admin" || role == "superuser") {
-        navigate("/catalog");
-      } else {
-        navigate("/catalog");
-      }
+      navigate("/root");
     } catch (error) {
       const errorResponse = error as AuthErrorResponse;
       if (errorResponse.data?.email) {
@@ -49,7 +45,6 @@ export const Loginpage = () => {
       }
     }
   };
-  const [loginUser, { isLoading: isCreating }] = useLoginUserMutation();
 
   return (
     <>
@@ -87,7 +82,6 @@ export const Loginpage = () => {
                   />
                   {errors.emailValue && (
                     <div className="mt-1 h-8 flex items-center gap-x-3">
-                      <ErrorIcon className="h-6 w-6 fill-red" />
                       <h3 className="text-sm font-medium text-red">{errors.emailValue.message}</h3>
                     </div>
                   )}
@@ -107,7 +101,6 @@ export const Loginpage = () => {
                   />
                   {errors.passwordValue && (
                     <div className="mt-1 h-8 flex items-center gap-x-3">
-                      <ErrorIcon className="h-6 w-6 fill-red" />
                       <h3 className="text-sm font-medium text-red">{errors.passwordValue.message}</h3>
                     </div>
                   )}

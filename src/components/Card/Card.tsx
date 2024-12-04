@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useDeleteItemMutation } from "../../features/api/api";
+import { useDeleteItemMutation } from "../../features/api/documentsApi";
 
 import { Tag } from "../Tag/Tag";
 import { EditIcon } from "../Icons/EditIcon";

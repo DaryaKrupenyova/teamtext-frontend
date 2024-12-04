@@ -8,7 +8,6 @@ import { AvaIcon } from "../components/Icons/AvaIcon";
 import { Input } from "../components/Input/Input";
 import { Label } from "../components/Label/Label";
 import { Button } from "../components/Button/Button";
-import { ErrorIcon } from "../components/Icons/ErrorIcon";
 
 import { RegisterData, AuthErrorResponse } from "../entities/account/model/types";
 
@@ -22,7 +21,10 @@ export const Registerpage = () => {
     formState: { errors },
   } = useForm<RegisterData>();
 
-  /* запрос + ошибки с бэка */
+  // запрос на регистрацию
+  const [registerUser] = useRegisterUserMutation();
+
+  // делаем запрос на регистрацию + получение ошибок с бэка
   const navigate = useNavigate();
   const handleSubmitProcess = async (data: RegisterData) => {
     try {
@@ -33,8 +35,6 @@ export const Registerpage = () => {
       localStorage.setItem("refresh", refreshtoken);
       const accesstoken = returned?.access ?? null;
       localStorage.setItem("access", accesstoken);
-      const role = returned?.role ?? null;
-      localStorage.setItem("role", role);
       navigate("/auth/login");
     } catch (error) {
       const errorResponse = error as AuthErrorResponse;
@@ -46,9 +46,9 @@ export const Registerpage = () => {
       }
     }
   };
-  const [registerUser, { isLoading: isCreating }] = useRegisterUserMutation();
 
-  const passwordValue = watch("passwordValue", ""); // для сравнения пароля и подтверждения пароля
+  // для сравнения пароля и подтверждения пароля
+  const passwordValue = watch("passwordValue", "");
 
   return (
     <>
@@ -86,7 +86,6 @@ export const Registerpage = () => {
                   />
                   {errors.emailValue && (
                     <div className="mt-1 h-8 flex items-center gap-x-3">
-                      <ErrorIcon className="h-6 w-6 fill-red" />
                       <h3 className="text-sm font-medium text-red">{errors.emailValue.message}</h3>
                     </div>
                   )}
@@ -114,7 +113,6 @@ export const Registerpage = () => {
                   />
                   {errors.passwordValue && (
                     <div className="mt-1 h-8 flex items-center gap-x-3">
-                      <ErrorIcon className="h-6 w-6 fill-red" />
                       <h3 className="text-sm font-medium text-red">{errors.passwordValue.message}</h3>
                     </div>
                   )}
@@ -135,7 +133,6 @@ export const Registerpage = () => {
                   />
                   {errors.passwordValue2 && (
                     <div className="mt-1 h-8 flex items-center gap-x-3">
-                      <ErrorIcon className="h-6 w-6 fill-red" />
                       <h3 className="text-sm font-medium text-red">{errors.passwordValue2.message}</h3>
                     </div>
                   )}
