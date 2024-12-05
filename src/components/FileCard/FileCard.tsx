@@ -5,7 +5,7 @@ import { useRenameFileMutation, useDeleteFileMutation, useShareFileMutation } fr
 import { FileIcon } from "../Icons/FileIcon";
 import { MenuIcon } from "../Icons/MenuIcon";
 import { Input } from "../Input/Input";
-
+import { Button } from "../Button/Button";
 interface FileCardProps {
   id: number;
   title: string;
@@ -80,8 +80,8 @@ export const FileCard: React.FC<FileCardProps> = (props) => {
   // состояние для показа банера "Не получилось дать доступ"
   const [isErrorBanner, setIsErrorBanner] = useState<boolean>(false);
 
-  // ссылка доступа к файлу
-  let urlShare = "";
+  // токен для доступа к файлу
+  const [sharingToken, setSharingToken] = useState<string>("");
 
   // запрос на share файла
   const [shareDocument] = useShareFileMutation();
@@ -91,11 +91,13 @@ export const FileCard: React.FC<FileCardProps> = (props) => {
     try {
       const response = await shareDocument({ id: props.id, is_sharing: true, is_editor: isEditor }).unwrap();
       console.log(`Файлом "${props.title}" получилось поделиться:`, response);
-      urlShare = response.url;
-      console.log("url", urlShare);
+      setSharingToken(response.sharing_token);
+      console.log("sharing_token", sharingToken);
+      setIsShareBanner(false);
       setIsUrlBanner(true);
     } catch (error) {
       console.error("Файлом не получилось поделиться:", error);
+      setIsShareBanner(false);
       setIsErrorBanner(true);
     }
   };
@@ -103,8 +105,12 @@ export const FileCard: React.FC<FileCardProps> = (props) => {
   return (
     <div className="p-5 flex flex-col justify-start items-center rounded-xl bg-white shadow-xl">
       <div className="mb-2.5 flex flex-row justify-center items-start gap-x-2.5">
-        <FileIcon className="w-[130px] h-[170px] fill-lightblue" />
-        <MenuIcon onClick={() => setVisibleMenu(!visibleMenu)} className="w-[7px] h-[25px] fill-gray" />
+        <a href={`/documents/${props.id}`}>
+          <div className="">
+            <FileIcon className="w-[130px] h-[170px] fill-lightblue" />
+          </div>
+        </a>
+        <MenuIcon onClick={() => setVisibleMenu(!visibleMenu)} className="cursor-pointer w-[7px] h-[25px] fill-gray" />
       </div>
       {!isRename ? <p className="w-[147px] text-xl text-center ellipsis">{props.title}</p> : <Input onChange={onChange} onBlur={onBlur} onKeyDown={onKeyDown} value={newTitle} type="text" className="pl-2" placeholder="Название файла..." />}
       {visibleMenu && (
@@ -115,8 +121,42 @@ export const FileCard: React.FC<FileCardProps> = (props) => {
           <div onClick={deleteHandler} className="cursor-pointer px-3.5 py-2.5">
             <p className="text-gray text-base">Удалить</p>
           </div>
-          <div onClick={() => null} className="cursor-pointer p-3.5 pt-2.5">
+          <div onClick={() => setIsShareBanner(true)} className="cursor-pointer p-3.5 pt-2.5">
             <p className="text-gray text-base">Поделиться</p>
+          </div>
+        </div>
+      )}
+      {isShareBanner && (
+        <div className="h-dvh fixed inset-0 bg-black/50 bg-none flex justify-center items-center z-[3]">
+          <div className="w-[425px] p-6 flex flex-col justify-center items-center rounded-xl bg-white shadow-xl">
+            <h1 className="mb-4 text-center text-2xl">Предоставить доступ по ссылке</h1>
+            <div className="mb-4 flex flex-row gap-x-3">
+              <span className="text-center text-base">Права:</span>
+              <div className="relative overflow-hidden flex flex-row items-center cursor-pointer h-[25px] w-[170px] rounded-xl bg-white border border-lightblue" onClick={() => setIsEditor(!isEditor)}>
+                <div className={`h-full w-1/2 bg-lightblue transition-transform duration-500 ${isEditor ? "translate-x-full" : ""}`} />
+                <span className={`absolute top-0 left-0 h-full w-1/2 text-base text-center ${isEditor ? "text-black" : "text-white"}`}>Читатель</span>
+                <span className={`absolute top-0 left-[85px] h-full w-1/2 text-base text-center ${isEditor ? "text-white" : "text-black"}`}>Редактор</span>
+              </div>
+            </div>
+            <Button onClick={shareHandler} text="Предоставить" />
+          </div>
+        </div>
+      )}
+      {isUrlBanner && (
+        <div className="h-dvh fixed inset-0 bg-black/50 bg-none flex justify-center items-center z-[3]">
+          <div className="w-[425px] p-6 flex flex-col justify-center items-center rounded-xl bg-white shadow-xl">
+            <h1 className="mb-4 text-center text-2xl">Ссылка успешно сгенерирована</h1>
+            <p className="text-center text-base">Отправьте эту ссылку тому, с кем хотите поделиться файлом: </p>
+            <p className="mb-4 break-all text-center text-lightblue text-base">http://localhost:5173/documents/sharing/{sharingToken}</p>
+            <Button onClick={() => setIsUrlBanner(false)} text="Готово" />
+          </div>
+        </div>
+      )}
+      {isErrorBanner && (
+        <div className="h-dvh fixed inset-0 bg-black/50 bg-none flex justify-center items-center z-[3]">
+          <div className="w-[425px] p-6 flex flex-col justify-center items-center rounded-xl bg-white shadow-xl">
+            <h1 className="mb-4 text-center text-2xl">Ссылку не удалось сгенерировать</h1>
+            <Button onClick={() => setIsErrorBanner(false)} text="Понятно" />
           </div>
         </div>
       )}

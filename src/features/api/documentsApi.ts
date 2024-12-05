@@ -23,11 +23,17 @@ export const documentsApi = createApi({
         method: "GET",
       }),
     }),
-    getFile: builder.mutation({
+    getFile: builder.query<Document, { id: number }>({
       query: (args) => ({
         url: `/documents/${args.id}`,
         method: "GET",
-        body: { id: args.id },
+      }),
+    }),
+    addCollaborator: builder.mutation({
+      query: (args) => ({
+        url: `/documents/sharing`,
+        method: "GET",
+        params: { token: args.token },
       }),
     }),
     createFile: builder.mutation({
@@ -37,13 +43,7 @@ export const documentsApi = createApi({
         body: { title: args.title },
       }),
     }),
-    addCollaborator: builder.mutation({
-      query: (args) => ({
-        url: `/documents/sharing/`,
-        method: "POST",
-        body: { file_id: args.file_id, token: args.token, is_editor: args.is_editor },
-      }),
-    }),
+
     renameFile: builder.mutation({
       query: (args) => ({
         url: `/documents/${args.id}/`,
@@ -75,4 +75,4 @@ export const documentsApi = createApi({
   }),
 });
 
-export const { useGetFilesQuery, useGetFileMutation, useCreateFileMutation, useAddCollaboratorMutation, useRenameFileMutation, useEditFileMutation, useShareFileMutation, useDeleteFileMutation } = documentsApi;
+export const { useGetFilesQuery, useGetFileQuery, useCreateFileMutation, useAddCollaboratorMutation, useRenameFileMutation, useEditFileMutation, useShareFileMutation, useDeleteFileMutation } = documentsApi;

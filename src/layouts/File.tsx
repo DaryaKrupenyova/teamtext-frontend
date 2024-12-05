@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Импорт стилей для редактора
+import "react-quill/dist/quill.snow.css";
 
 interface FileProps {
   placeholder: string;

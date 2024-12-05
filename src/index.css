@@ -17,41 +17,17 @@ html {
 
 body {
   height: 100dvh;
-  background-color: #f2f2fe;
-}
-
-.body_auth {
-  height: 100dvh;
-  background-color: #e5e5fe;
-}
-
-.body_404 {
-  height: 100dvh;
-  background-image: url("/images/background_404.png");
-  background-position: top;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-color: #f7f7f7;
 }
 
 main {
-  background-color: #f2f2fe;
+  background-color: #f7f7f7;
 }
 
 .ellipsis {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Количество строк, которое нужно отобразить */
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-@media (max-height: 740px) {
-  .body_auth {
-    padding-top: 50px;
-  }
-
-  .body_auth {
-    height: auto;
-  }
 }

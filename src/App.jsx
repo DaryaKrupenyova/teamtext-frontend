@@ -4,8 +4,8 @@ import { Loginpage } from "./layouts/Loginpage";
 import { Registerpage } from "./layouts/Registerpage";
 import { NoFoundpage } from "./layouts/NoFoundpage";
 import { Documentspage } from "./layouts/Documentspage";
-//import { Documentpage } from "./layouts/Documentpage";
-//import { AddCollaboratorpage } from "./layouts/AddCollaboratorpage";
+import { Documentpage } from "./layouts/Documentpage";
+import { AddCollaboratorpage } from "./layouts/AddCollaboratorpage";
 
 const router = createBrowserRouter([
   {
@@ -20,17 +20,13 @@ const router = createBrowserRouter([
       { path: "register", element: <Registerpage /> },
     ],
   },
-  /*{
-    path: "/documents ",
-    children: [
-      { path: "", element: <Documentspage /> },
-      //{ path: ":documentId", element: <Documentpage /> },
-      //{ path: "sharing", element: <AddCollaboratorpage /> },
-    ],
-  },*/
   {
     path: "/documents",
-    element: <Documentspage />,
+    children: [
+      { path: "", element: <Documentspage /> },
+      { path: ":documentId", element: <Documentpage /> },
+      { path: "sharing/:token", element: <AddCollaboratorpage /> },
+    ],
   },
   {
     path: "*",

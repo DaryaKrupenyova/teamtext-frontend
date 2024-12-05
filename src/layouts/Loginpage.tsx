@@ -34,7 +34,7 @@ export const Loginpage = () => {
       localStorage.setItem("refresh", refreshtoken);
       const accesstoken = returned?.access ?? null;
       localStorage.setItem("access", accesstoken);
-      navigate("/root");
+      navigate("/documents");
     } catch (error) {
       const errorResponse = error as AuthErrorResponse;
       if (errorResponse.data?.email) {
