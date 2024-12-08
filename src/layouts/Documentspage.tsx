@@ -108,7 +108,6 @@ export const Documentspage = () => {
               <div>
                 <Button onClick={createHandler} text="Создать" />
               </div>
-              <div className="w-full">поиск</div>
             </div>
             <div className="px-80 grid grid-cols-5 gap-y-10 gap-x-14 justify-center items-stretch">
               {documents.map((document: Document) => (

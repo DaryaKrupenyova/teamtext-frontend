@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import { useRenameFileMutation, useDeleteFileMutation, useShareFileMutation } from "../../features/api/documentsApi";
-
 import { FileIcon } from "../Icons/FileIcon";
 import { MenuIcon } from "../Icons/MenuIcon";
 import { Input } from "../Input/Input";
@@ -10,17 +8,13 @@ interface FileCardProps {
   id: number;
   title: string;
 }
-
 export const FileCard: React.FC<FileCardProps> = (props) => {
   // состояние для видимости меню
   const [visibleMenu, setVisibleMenu] = useState<boolean>(false);
-
   // состояние для переименования файла
   const [isRename, setIsRename] = useState<boolean>(false);
-
   // значение инпута названия файла
   const [newTitle, setNewTitle] = useState<string>(props.title);
-
   // обработчик изменения значения инпута
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -37,10 +31,8 @@ export const FileCard: React.FC<FileCardProps> = (props) => {
       event.target.blur();
     }
   };
-
   // запрос на переименование файла
   const [renameDocument] = useRenameFileMutation();
-
   // обработчик переименования файла
   const renameHandler = async () => {
     if (newTitle == "") {
@@ -55,10 +47,8 @@ export const FileCard: React.FC<FileCardProps> = (props) => {
       window.location.reload();
     }
   };
-
   // запрос на удаление файла
   const [deleteDocument] = useDeleteFileMutation();
-
   // обработчик удаления файла
   const deleteHandler = async () => {
     try {
@@ -69,23 +59,18 @@ export const FileCard: React.FC<FileCardProps> = (props) => {
       console.error("Файл не получилось удалить:", error);
     }
   };
-
   // состояние для режима доступа к файлу
   const [isEditor, setIsEditor] = useState<boolean>(false);
-
   // состояние для показа банера "Доступ к файлу"
   const [isShareBanner, setIsShareBanner] = useState<boolean>(false);
   // состояние для показа банера "Вот ваша ссылка"
   const [isUrlBanner, setIsUrlBanner] = useState<boolean>(false);
   // состояние для показа банера "Не получилось дать доступ"
   const [isErrorBanner, setIsErrorBanner] = useState<boolean>(false);
-
   // токен для доступа к файлу
   const [sharingToken, setSharingToken] = useState<string>("");
-
   // запрос на share файла
   const [shareDocument] = useShareFileMutation();
-
   // обработчик переименования файла
   const shareHandler = async () => {
     try {

@@ -107,7 +107,7 @@ export const Documentpage = () => {
 
   if (isSuccessDocument) {
     return (
-      <main className="min-h-screen bg-lightgray bg-fixed bg-bottom bg-no-repeat">
+      <main className="min-h-screen bg-lightgray bg-[url('../../images/waves.svg')] bg-fixed bg-bottom bg-no-repeat">
         <div className="p-6 flex justify-between items-center ">
           <span className="text-3xl">TeamText</span>
           <div>
@@ -115,7 +115,7 @@ export const Documentpage = () => {
           </div>
         </div>
         <h1 className="mb-3 px-32 text-left text-2xl">{document.title}</h1>
-        <ReactQuill className="z-[2] pb-6 px-32 border-lightblue rounded-xl text-black text-base" theme="snow" onChange={handleChange} value={editorHtml} modules={modules} formats={formats} bounds={".app"} placeholder={"Здесь можно писать..."} />
+        <ReactQuill className="z-[2] mb-6 mx-32 border-lightblue bg-white text-black text-base" theme="snow" onChange={handleChange} value={editorHtml} modules={modules} formats={formats} bounds={".app"} placeholder={"Здесь можно писать..."} />
         <div className="px-32 pb-6 flex justify-end items-center ">
           <div>
             <Button onClick={editHandler} text="Сохранить" />
